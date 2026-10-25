@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "rules": [
+    {
+      "id": "brief-basics",
+      "kind": "accepted_artifact",
+      "status": "active",
+      "scope": "demo-project",
+      "family": "brief-basics",
+      "source": "rules/brief-basics.md",
+      "replaces": [],
+      "required_headings": ["进展", "下一步"],
+      "evidence": {
+        "type": "acceptance",
+        "path": "evidence/baseline-acceptance.md"
+      }
+    },
+    {
+      "id": "brief-uncertainty",
+      "kind": "preference",
+      "status": "candidate",
+      "scope": "demo-project",
+      "family": "brief-uncertainty",
+      "source": "rules/uncertainty.md",
+      "replaces": [],
+      "required_headings": ["未验证事项"]
+    }
+  ]
+}

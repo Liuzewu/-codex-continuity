@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.env
+.env.*
+*.log
+*.sqlite*
+*.db
+*.nosync/
+private/
+public-export/
+copy-a/
+copy-b/
