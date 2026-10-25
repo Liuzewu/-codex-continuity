@@ -217,10 +217,18 @@ class KnowledgeTests(unittest.TestCase):
         self.write("registry.json", json.dumps({"schema_version": True, "rules": [self.rule]}))
         self.assert_issue("invalid_registry")
 
-    def test_deeply_nested_json_is_an_input_error_not_a_traceback(self):
+    def test_deeply_nested_json_is_rejected_without_a_traceback(self):
         self.write("registry.json", "[" * 2000 + "0" + "]" * 2000)
         code, report = self.check()
-        self.assertEqual((code, report.get("status")), (2, "error"), report)
+        # Python versions have different JSON decoder recursion limits. A
+        # decoded array is an invalid registry; a decoder refusal is an input
+        # error. Both must be handled, and neither may pass validation.
+        if code == 2:
+            self.assertEqual((report.get("status"), report.get("error")),
+                             ("error", "invalid_json"), report)
+        else:
+            self.assertEqual((code, report.get("status")), (1, "failed"), report)
+            self.assertIn("invalid_registry", {item["code"] for item in report["issues"]})
 
     def test_nonstandard_json_numbers_are_input_errors(self):
         for token in ("NaN", "Infinity", "-Infinity"):
